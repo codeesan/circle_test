@@ -1,5 +1,6 @@
 machine:
-
+  java:
+    version: openjdk8
   environment:
     # Add the Postgres 9.6 binaries to the path.
     PATH: /usr/lib/postgresql/9.6/bin/:$PATH
@@ -18,4 +19,3 @@ machine:
 
     # Create a new test database.
     - sudo -u postgres psql -p 5433 -c "create database test;"
-
