@@ -27,4 +27,3 @@ jobs:
       - run:
           name: reset database
           command: bash ./script/reset_database.sh kaleo_test
-
