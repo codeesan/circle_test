@@ -25,8 +25,8 @@ jobs:
           name: Make temp cache
           command: mkdir -p tmp/cache
       - run:
-          name: Where am I ?
-          command: pwd
+          name: What's in here ?
+          command: ls -la
       - run:
           name: reset database
           command: ./script/reset_database.sh kaleo_test
