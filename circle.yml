@@ -16,7 +16,7 @@ jobs:
       - checkout
       - setup_remote_docker
       - save_cache:
-          key: dependencies
+          key: dependencies-cache
           paths:
             - '../.rvm/rubies'
             - "vendor/bundle"
@@ -26,4 +26,4 @@ jobs:
           command: mkdir -p tmp/cache
       - run:
           name: reset database
-          command: bash ./script/reset_database.sh kaleo_test
+          command: bash /kaleo3/script/reset_database.sh kaleo_test
