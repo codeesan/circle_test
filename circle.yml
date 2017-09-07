@@ -2,6 +2,7 @@ version: 2
 
 jobs:
   build:
+    working_directory: /kaleo3
     docker:
         - image: kaleosoftware/circleci:1.5
 
