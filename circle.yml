@@ -15,15 +15,15 @@ jobs:
       - checkout
       - setup_remote_docker
       - save_cache:
+          key: dependencies
           paths:
             - '../.rvm/rubies'
             - "vendor/bundle"
             - elasticsearch-5.2.2
-      - run: 
+      - run:
           name: Make temp cache
           command: mkdir -p tmp/cache
       - run:
           name: reset database
           command: bash ./script/reset_database.sh kaleo_test
-
 
