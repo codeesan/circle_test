@@ -1,21 +1,22 @@
-machine:
-  java:
-    version: openjdk8
-  environment:
-    # Add the Postgres 9.6 binaries to the path.
-    PATH: /usr/lib/postgresql/9.6/bin/:$PATH
+version: 2
 
-  pre:
-    # Start Postgres 9.6 since the default is 9.5.
-    - sudo service postgresql stop
-    - sudo mv /usr/lib/postgresql-9.6/9.6 /usr/lib/postgresql/9.6
-    - sudo mv /etc/postgresql-9.6/9.6 /etc/postgresql/9.6
-    - sudo service postgresql start 9.6
+jobs:
+  build:
+    docker:
+        - image: kaleosoftware/circleci:1.5
 
-    # Add a password to the `ubuntu` user, since Postgres is configured to
-    # always ask for a password, and without out it will fail.
-    - sudo -u postgres psql -p 5433 -c "create user ubuntu with password 'ubuntu';"
-    - sudo -u postgres psql -p 5433 -c "alter user ubuntu with superuser;"
+    environment:
+      RAILS_ENV: test
+      _JAVA_OPTIONS: "-Xms512m -Xmx1024m"
+      JRUBY_OPTS: -J-XX:+TieredCompilation -J-XX:TieredStopAtLevel=1 -J-noverify -X-C -Xcompile.invokedynamic=false --1.9 -J-Xmx2g
 
-    # Create a new test database.
-    - sudo -u postgres psql -p 5433 -c "create database test;"
+
+    steps:
+      - checkout
+      - setup_remote_docker
+      - save_cache:
+          paths:
+            - '../.rvm/rubies'
+            - "vendor/bundle"
+            - elasticsearch-5.2.2
+        
