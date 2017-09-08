@@ -1,0 +1,34 @@
+version: 2
+jobs:
+  build:
+    working_directory: /kaleo3
+    docker:
+        #- image: kaleosoftware/circleci:1.5
+        - image: kaleosoftware/circleci-k3:0.0.1
+    environment:
+      RAILS_ENV: test
+      _JAVA_OPTIONS: "-Xms512m -Xmx1024m"
+      JRUBY_OPTS: -J-XX:+TieredCompilation -J-XX:TieredStopAtLevel=1 -J-noverify -X-C -Xcompile.invokedynamic=false --1.9 -J-Xmx2g
+    steps:
+      - checkout
+      - setup_remote_docker
+      - restore_cache:
+          key: dependencies-cache
+      - save_cache:
+          key: dependencies-cache
+          paths:
+            - '../.rvm/rubies'
+            - "vendor/bundle"
+            - elasticsearch-5.2.2
+      - run:
+          name: are changes saved?
+          command: echo "Yes"
+      - run:
+          name: install bundler
+          command: rvm-exec jruby-1.7.13 gem install bundler -v '1.12.5'
+
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build
